@@ -10,6 +10,8 @@ csv_file_path = 'output.csv'
 def home():
     return render_template('index.html')
 
+# CRUD
+
 # Read all data
 @app.route('/data')
 def get_data():
@@ -74,6 +76,16 @@ def delete_data(team_name):
     df = df[df['team_name'] != team_name]
     df.to_csv(csv_file_path, index=False)
     return jsonify({'result': True})
+
+# PAGES
+@app.route('/about')
+def about():
+    return render_template('about.html') 
+
+@app.route('/team')
+def team():
+    return render_template('team.html')  
+
 
 if __name__ == '__main__':
     app.run(debug=True)

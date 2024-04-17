@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<h1>About the Project</h1>
+<p>
+    Our project is dedicated to creating a comprehensive model that not only forecasts game outcomes but also extends to predicting playoff performance.
+    By harnessing the power of machine learning and deep learning techniques and continuously updating our predictions throughout the season, our goal is to distill the essence of what makes a World Series-winning team. 
+    We place a strong emphasis on data management, using technologies like PostgreSQL for database management and Spark for data processing, which enable us to handle vast datasets effectively and offer real-time updates—a critical component for a dynamic model that adapts as the season progresses. 
+    Our future endeavors aim to further refine our data pipeline for efficiency, broaden our data collection for deeper insights, employ advanced modeling techniques for enhanced predictive accuracy, and upgrade our deployment methods to foster real-time user interaction and engagement.
+</p>
+
+<h2>Project Overview</h2>
+<p>
+    <li class="nav-item">Research Objective: Create a model to discern what a World Series-winning team looks like based on regular season data.</li> 
+    <li class="nav-item">Innovative Techniques: Employ machine learning and deep learning methods.</li> 
+    <li class="nav-item">Dynamic Model: Continuously updates predictions throughout the season to identify likely World Series victors.</li> 
+</p>
+
+<h2>Data Sources and Technologies</h2>
+    <div>
+        <h3>Data Sources:</h3>
+        <ul>
+            <li><strong>Pybaseball:</strong> Seasonal and individual player statistics.</li>
+            <li><strong>Lahman's Baseball Database:</strong> Tracks playoff performance and records.</li>
+            <li><strong>Statcast API:</strong> Provides real-time data updates.</li>
+        </ul>        
+        <h3>Technology Implementation:</h3>
+        <p><strong>Selected Technologies:</strong></p>
+        <ul>
+            <li>PostgreSQL for robust database management</li>
+            <li>Spark for scalable data processing</li>
+            <li>MLlib for machine learning tasks</li>
+            <li>TensorFlow and Keras for deep learning models</li>
+            <li>Plotly for interactive visualizations</li>
+            <li>Flask for app </li>
+        </ul>
+        <p><strong>Rationale:</strong> These technologies were chosen for their ability to handle large datasets, support real-time processing, and provide a scalable architecture suitable for iterative model development and deployment.</p>
+    </div>
+
+<h2>Outcome and Future Development</h2>
+<p>
+    <li class="nav-item">Automate Daily Operations: Further automate the data pipeline to enhance daily updates without manual intervention, improving reliability and timeliness.</li>
+    <li class="nav-item">Expand Data Collection: Increase the volume and variety of data points collected to enhance model accuracy and provide more nuanced insights.</li>
+    <li class="nav-item">Advanced Modeling Techniques: Transition from logistic regression to more sophisticated models (e.g., ensemble methods, neural networks) to improve predictive performance.</li>
+    <li class="nav-item">Deployment Enhancements: Improve deployment methods by utilizing more robust platforms for real-time analysis and interactive user engagement.</li>
+</p>
+{% endblock %}
