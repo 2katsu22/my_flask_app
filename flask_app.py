@@ -1,80 +1,71 @@
-from flask import Flask, render_template
-from flask import Flask, request, jsonify, abort
+from flask import Flask, render_template, request, jsonify, abort, redirect, url_for
 import pandas as pd
-import json
 
 app = Flask(__name__)
 csv_file_path = 'output.csv'
 
-# home 
+# Home Page
 @app.route('/')
 @app.route('/home')
 def home():
     return render_template('index.html')
 
-# read
-# @app.route('/data', methods=['GET'])
-# def get_data():
-#     df = pd.read_csv(csv_file_path)
-#     data_json = df.to_json(orient='records')
-#     return jsonify(json.loads(data_json))
+# Read all data
 @app.route('/data')
 def get_data():
     df = pd.read_csv(csv_file_path)
-    # Pass the DataFrame to the template
     return render_template('data.html', data=df.to_dict(orient='records'))
 
+# Get data by team name API-like
 @app.route('/data/<string:team_name>', methods=['GET'])
 def get_data_by_team_name(team_name):
     df = pd.read_csv(csv_file_path)
     record = df[df['team_name'] == team_name]
     if record.empty:
         abort(404)
-    return jsonify(json.loads(record.to_json(orient='records')))
+    return jsonify(record.to_dict(orient='records'))
 
+# Search data
 @app.route('/search')
 def search_data():
     team_name = request.args.get('team_name', '')
-    if team_name:
-        df = pd.read_csv(csv_file_path)
-        record = df[df['team_name'] == team_name]
-        if record.empty:
-            return render_template('data.html', data=[], message="No records found for the given team name.")
-        return render_template('data.html', data=record.to_dict(orient='records'))
-    else:
-        # If no search term provided, render the data.html template with the entire dataset
-        df = pd.read_csv(csv_file_path)
-        return render_template('data.html', data=df.to_dict(orient='records'))
+    df = pd.read_csv(csv_file_path)
+    record = df[df['team_name'] == team_name] if team_name else df
+    return render_template('data.html', data=record.to_dict(orient='records'))
 
-
-# needs to TEST: 
-# Create
-@app.route('/data', methods=['POST'])
+# Create data 
+@app.route('/data/create', methods=['GET', 'POST'])
 def create_data():
-    if not request.json:
-        abort(400)
-    new_data = request.json
-    df = pd.read_csv(csv_file_path)
-    if new_data['team_name'] in df['team_name'].values:
-        abort(409, description="Record with this team_name already exists.")
-    df = df.append(new_data, ignore_index=True)
-    df.to_csv(csv_file_path, index=False)
-    return jsonify(new_data), 201
+    if request.method == 'GET':
+        return render_template('create.html')  # You'll need to create this template
+    elif request.method == 'POST':
+        new_data = request.form.to_dict()
+        df = pd.read_csv(csv_file_path)
+        if new_data['team_name'] in df['team_name'].values:
+            abort(409, description="Record with this team name already exists.")
+        new_data_df = pd.DataFrame([new_data])  # Convert new data into a DataFrame
+        df = pd.concat([df, new_data_df], ignore_index=True)  # Use concat instead of append
+        df.to_csv(csv_file_path, index=False)
+        return redirect(url_for('get_data'))
 
-# update
-@app.route('/data/<string:team_name>', methods=['PUT'])
+# Update data: bug
+@app.route('/data/update/<string:team_name>', methods=['GET', 'POST'])
 def update_data(team_name):
-    if not request.json:
-        abort(400)
     df = pd.read_csv(csv_file_path)
-    if team_name not in df['team_name'].values:
+    record = df[df['team_name'] == team_name]
+    if record.empty:
         abort(404)
-    updated_data = request.json
-    df.loc[df['team_name'] == team_name, :] = updated_data
-    df.to_csv(csv_file_path, index=False)
-    return jsonify(updated_data)
+    
+    if request.method == 'GET':
+        return render_template('update.html', record=record.iloc[0].to_dict())
+    elif request.method == 'POST':
+        updated_data = request.form.to_dict()
+        updated_df = pd.DataFrame([updated_data])
+        df.update(updated_df)
+        df.to_csv(csv_file_path, index=False)
+        return redirect(url_for('get_data'))
 
-# delete
+# Delete data
 @app.route('/data/<string:team_name>', methods=['DELETE'])
 def delete_data(team_name):
     df = pd.read_csv(csv_file_path)

@@ -1,0 +1,29 @@
+<!-- create.html -->
+{% extends 'base.html' %}
+
+{% block title %}Create New Data{% endblock %}
+
+{% block content %}
+<h2>Create New Data Entry</h2>
+<a class="btn btn-secondary mb-3" href="/data">Back to Data</a>
+
+<form action="/data/create" method="post">
+    <div class="form-group">
+        <label for="teamName">Team Name</label>
+        <input type="text" class="form-control" id="teamName" name="team_name" required>
+    </div>
+    <div class="form-group">
+        <label for="season">Season</label>
+        <input type="text" class="form-control" id="season" name="season" required>
+    </div>
+    <div class="form-group">
+        <label for="ops">OPS</label>
+        <input type="text" class="form-control" id="ops" name="ops">
+    </div>
+    <div class="form-group">
+        <label for="woba">wOBA</label>
+        <input type="text" class="form-control" id="woba" name="woba">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
