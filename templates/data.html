@@ -1,0 +1,68 @@
+<!-- data.html -->
+{% extends 'base.html' %}
+
+{% block title %}Data Page{% endblock %}
+
+{% block content %}
+<h2>Team Data</h2>
+<a class="btn btn-primary mb-3" href="/">Back to Home</a>
+<form class="form-inline mb-3" action="/search" method="GET">
+    <div class="form-group mr-2">
+        <input type="text" class="form-control" name="team_name" id="teamNameInput" placeholder="Search by team name">
+    </div>
+    <button type="submit" class="btn btn-primary mr-2">Search</button>
+    <button type="button" class="btn btn-secondary" onclick="clearSearch()">Clear</button>
+</form>
+
+{% if not data %}
+<div class="alert alert-warning" role="alert">
+    No results match the search criteria.
+</div>
+{% endif %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Season</th>
+            <th>Team Name</th>
+            <th>OPS</th>
+            <th>wOBA</th>
+            <th>Batting WAR</th>
+            <th>wRC+</th>
+            <th>Batting Clutch</th>
+            <th>ERA</th>
+            <th>WHIP</th>
+            <th>FIP</th>
+            <th>K/9</th>
+            <th>Pitching WAR</th>
+            <th>Prediction</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td>{{ row.season }}</td>
+            <td>{{ row.team_name }}</td>
+            <td>{{ row.ops }}</td>
+            <td>{{ row.woba }}</td>
+            <td>{{ row.batting_war }}</td>
+            <td>{{ row.wrc_plus }}</td>
+            <td>{{ row.batting_clutch }}</td>
+            <td>{{ row.era }}</td>
+            <td>{{ row.whip }}</td>
+            <td>{{ row.fip }}</td>
+            <td>{{ row.k_per_9 }}</td>
+            <td>{{ row.pitching_war }}</td>
+            <td>{{ row.prediction }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    function clearSearch() {
+        document.getElementById('teamNameInput').value = '';
+        window.location = '/data';
+    }
+</script>
+{% endblock %}
