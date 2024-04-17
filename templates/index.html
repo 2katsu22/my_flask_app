@@ -1,10 +1,169 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MLB World Series Model</title>
-</head>
-<body>
-    <h1>MLB Statistics and Model Predictions</h1>
-    {{ table|safe }}
-</body>
-</html>
+<!-- index.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<h2>Welcome!</h2>
+<p>This app displays baseball analytics made by Team 6-4</p>
+<h3>Relevant Terms</h3>
+
+<!-- Collapsible buttons for each term -->
+<div class="d-flex flex-wrap">
+    <!-- Season -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseSeason" aria-expanded="false" aria-controls="collapseSeason">
+            Season
+        </button>
+        <div class="collapse" id="collapseSeason">
+            <div class="card card-body">
+                The year of the baseball season.
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Name -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseTeamName" aria-expanded="false" aria-controls="collapseTeamName">
+            Team Name
+        </button>
+        <div class="collapse" id="collapseTeamName">
+            <div class="card card-body">
+                The name of the baseball team.
+            </div>
+        </div>
+    </div>
+
+    <!-- OPS -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseOPS" aria-expanded="false" aria-controls="collapseOPS">
+            OPS
+        </button>
+        <div class="collapse" id="collapseOPS">
+            <div class="card card-body">
+                On-base Plus Slugging, a statistic that combines on-base percentage and slugging percentage.
+            </div>
+        </div>
+    </div>
+
+    <!-- wOBA -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseWOBA" aria-expanded="false" aria-controls="collapseWOBA">
+            wOBA
+        </button>
+        <div class="collapse" id="collapseWOBA">
+            <div class="card card-body">
+                Weighted On-Base Average, a statistic that measures a player's overall offensive contribution.
+            </div>
+        </div>
+    </div>
+
+    <!-- Batting WAR -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseBattingWAR" aria-expanded="false" aria-controls="collapseBattingWAR">
+            Batting WAR
+        </button>
+        <div class="collapse" id="collapseBattingWAR">
+            <div class="card card-body">
+                Wins Above Replacement for batting, a measure of a player's value relative to a replacement-level player.
+            </div>
+        </div>
+    </div>
+
+    <!-- wRC+ -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseWRCPlus" aria-expanded="false" aria-controls="collapseWRCPlus">
+            wRC+
+        </button>
+        <div class="collapse" id="collapseWRCPlus">
+            <div class="card card-body">
+                Weighted Runs Created Plus, a statistic that measures a player's offensive performance relative to the league average.
+            </div>
+        </div>
+    </div>
+
+    <!-- Batting Clutch -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseBattingClutch" aria-expanded="false" aria-controls="collapseBattingClutch">
+            Batting Clutch
+        </button>
+        <div class="collapse" id="collapseBattingClutch">
+            <div class="card card-body">
+                A measure of how well a player performs in high-leverage situations compared to their overall performance.
+            </div>
+        </div>
+    </div>
+
+    <!-- ERA -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseERA" aria-expanded="false" aria-controls="collapseERA">
+            ERA
+        </button>
+        <div class="collapse" id="collapseERA">
+            <div class="card card-body">
+                Earned Run Average, a statistic that measures the average number of runs a pitcher allows per nine innings.
+            </div>
+        </div>
+    </div>
+
+    <!-- WHIP -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseWHIP" aria-expanded="false" aria-controls="collapseWHIP">
+            WHIP
+        </button>
+        <div class="collapse" id="collapseWHIP">
+            <div class="card card-body">
+                Walks plus Hits per Inning Pitched, a statistic that measures a pitcher's ability to prevent baserunners.
+            </div>
+        </div>
+    </div>
+
+    <!-- FIP -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFIP" aria-expanded="false" aria-controls="collapseFIP">
+            FIP
+        </button>
+        <div class="collapse" id="collapseFIP">
+            <div class="card card-body">
+                Fielding Independent Pitching, a statistic that measures a pitcher's performance independent of their team's defense.
+            </div>
+        </div>
+    </div>
+
+    <!-- K/9 -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseKPer9" aria-expanded="false" aria-controls="collapseKPer9">
+            K/9
+        </button>
+        <div class="collapse" id="collapseKPer9">
+            <div class="card card-body">
+                Strikeouts per Nine Innings, a measure of a pitcher's ability to strike out batters.
+            </div>
+        </div>
+    </div>
+
+    <!-- Pitching WAR -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapsePitchingWAR" aria-expanded="false" aria-controls="collapsePitchingWAR">
+            Pitching WAR
+        </button>
+        <div class="collapse" id="collapsePitchingWAR">
+            <div class="card card-body">
+                Wins Above Replacement for pitching, a measure of a pitcher's value relative to a replacement-level pitcher.
+            </div>
+        </div>
+    </div>
+
+    <!-- Prediction -->
+    <div class="mr-2 mb-2">
+        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapsePrediction" aria-expanded="false" aria-controls="collapsePrediction">
+            Prediction
+        </button>
+        <div class="collapse" id="collapsePrediction">
+            <div class="card card-body">
+                Some prediction or outcome related to the team's performance.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
